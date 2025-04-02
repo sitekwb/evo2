@@ -1,2 +1,6 @@
 biopython
 huggingface_hub
+torch
+transformers
+datasets # Optional, but useful for data handling
+transformer-engine # Required by vortex/evo2
