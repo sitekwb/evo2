@@ -212,3 +212,69 @@ If you find these models useful for your research, please cite the relevant pape
 	journal = {bioRxiv}
 }
 ```
+
+# Uruchamianie inferencji evo2 na klastrze Entropy
+
+Ten repozytorium zawiera skrypty do uruchamiania inferencji modelu evo2 na klastrze GPU Entropy na Wydziale MIM UW.
+
+## Przygotowanie środowiska
+
+Należy zalogować się do klastra Entropy:
+
+```bash
+ssh wsitek@entropy.mimuw.edu.pl
+```
+
+## Dostępne skrypty
+
+Repozytorium zawiera następujące skrypty:
+
+1. `run_evo2_inference.py` - skrypt Python do inferencji modelu evo2 na pojedynczej sekwencji DNA
+2. `run_evo2_inference.sh` - skrypt Bash do uruchomienia skryptu inferencji na GPU A100 za pomocą srun
+3. `run_enhancer_inference.py` - skrypt Python do inferencji klasyfikatora enhancerów DNA
+4. `run_enhancer_inference.sh` - skrypt Bash do uruchomienia klasyfikatora enhancerów na GPU A100
+
+## Sposób użycia
+
+### Inferencja modelu evo2
+
+Aby uruchomić inferencję modelu evo2 na GPU A100:
+
+```bash
+# Nadaj uprawnienia wykonywania
+chmod +x run_evo2_inference.sh
+
+# Uruchom skrypt
+./run_evo2_inference.sh
+```
+
+Parametry skryptu można dostosować edytując plik `run_evo2_inference.sh`.
+
+### Klasyfikator enhancerów DNA
+
+Aby uruchomić klasyfikator enhancerów DNA:
+
+```bash
+# Nadaj uprawnienia wykonywania
+chmod +x run_enhancer_inference.sh
+
+# Przygotuj plik z sekwencjami DNA (jedna sekwencja na linię)
+echo "ACTGACTGACTGACTG" > sequences.txt
+echo "TGCATGCATGCATGCA" >> sequences.txt
+
+# Uruchom skrypt, podając plik wejściowy
+./run_enhancer_inference.sh sequences.txt
+```
+
+Wyniki zostaną zapisane w pliku `sequences_results.json`.
+
+## Parametry srun
+
+Skrypty używają następujących parametrów srun:
+
+- `--partition=common` - partycja obliczeniowa
+- `--qos=student` - quality of service dla studentów
+- `--gres=gpu:a100:1` - rezerwacja jednej karty A100
+- `--time=XX:XX:XX` - limit czasu wykonania zadania
+
+Parametry te można dostosować do własnych potrzeb, edytując odpowiednie pliki skryptów.
