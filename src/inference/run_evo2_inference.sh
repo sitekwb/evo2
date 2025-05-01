@@ -29,13 +29,9 @@ source evo2_env/bin/activate
 # Instalacja wymaganych pakietów
 pip install -r requirements.txt
 
-# Instalacja vortex
-echo "Instalacja pakietu vortex..."
-pip install git+https://github.com/arcinstitute/vortex.git
-
 # Instalacja pakietu evo2 w trybie deweloperskim
 echo "Instalacja pakietu evo2 z katalogu: $(pwd)"
-pip install -e .
+pip install .
 
 # Parametry zadania dla Slurm
 # --partition=common - partycja obliczeniowa
