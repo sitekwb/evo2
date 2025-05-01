@@ -3,12 +3,35 @@
 # Skrypt do uruchomienia inferencji evo2 na GPU A100 na klastrze Entropy
 # Użycie: ./run_evo2_inference.sh
 
-# Tworzenie i aktywacja środowiska wirtualnego
-python3 -m venv evo2_env
+# Sprawdzenie czy jesteśmy w katalogu głównym czy w src/inference
+if [ -f "setup.py" ] || [ -f "pyproject.toml" ]; then
+    echo "Jesteśmy w katalogu głównym projektu."
+    PROJECT_ROOT="$(pwd)"
+else
+    echo "Jesteśmy w katalogu src/inference, przechodzę do katalogu głównego..."
+    PROJECT_ROOT="$(dirname "$(dirname "$(dirname "$0")")")"
+    cd "$PROJECT_ROOT"
+fi
+
+echo "Katalog główny projektu: $PROJECT_ROOT"
+
+# Sprawdzenie czy środowisko wirtualne już istnieje
+if [ ! -d "evo2_env" ]; then
+    echo "Tworzenie nowego środowiska wirtualnego..."
+    python3 -m venv evo2_env
+else
+    echo "Środowisko wirtualne już istnieje."
+fi
+
+# Aktywacja środowiska wirtualnego
 source evo2_env/bin/activate
 
 # Instalacja wymaganych pakietów
 pip install -r requirements.txt
+
+# Instalacja pakietu evo2 w trybie deweloperskim
+echo "Instalacja pakietu evo2 z katalogu: $(pwd)"
+pip install -e .
 
 # Parametry zadania dla Slurm
 # --partition=common - partycja obliczeniowa
