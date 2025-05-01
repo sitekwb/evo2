@@ -85,7 +85,7 @@ pip install -r requirements.txt
 
 # Instalacja vortex
 echo "Instalacja pakietu vortex..."
-pip install git+https://github.com/arcinstitute/vortex.git
+pip install -e vortex
 
 # Instalacja pakietu evo2 w trybie deweloperskim
 echo "Instalacja pakietu evo2 z katalogu: $(pwd)"
